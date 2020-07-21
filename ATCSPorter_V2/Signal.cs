@@ -53,7 +53,6 @@ namespace ATCSPorter_V2 {
 		internal Rectangle[] lights;
 
 		public DwarfSignal(PictureBox pb, int x, int y, char directionPointingIn):base(pb, x, y, directionPointingIn) {
-			// TODO: Modify to work with east pointing signals
 			int topLeftX = x + (direction == 'W' ? -20 : 5);
 			int topLeftY = y - 2;
 			head = new RectangleF(topLeftX, topLeftY, 16, 6);
@@ -77,8 +76,81 @@ namespace ATCSPorter_V2 {
 	}
 
 	class TwoHeadSignal : Signal {
-		public TwoHeadSignal(PictureBox pb, int x, int y, char directionPointingIn):base(pb, x, y, directionPointingIn) {
+		internal Tuple<RectangleF, Rectangle[]>[] heads;	// Item1 = target, Item2 = lights
 
+		public TwoHeadSignal(PictureBox pb, int x, int y, char directionPointingIn):base(pb, x, y, directionPointingIn) {
+			if (directionPointingIn == 'W') {
+				int topLeftX = x - 16;
+				int topLeftY = y - 5;
+				heads = new Tuple<RectangleF, Rectangle[]>[2];
+				heads[0] = new Tuple<RectangleF, Rectangle[]>(
+					new RectangleF(topLeftX - 10, topLeftY, 22, 12),
+					new Rectangle[] {
+						new Rectangle(topLeftX - 6, topLeftY + 4, 3, 3),
+						new Rectangle(topLeftX - 1, topLeftY + 4, 3, 3),
+						new Rectangle(topLeftX + 4, topLeftY + 4, 3, 3)
+					}
+				);
+				heads[1] = new Tuple<RectangleF, Rectangle[]>(
+					new RectangleF(topLeftX - 33, topLeftY, 22, 12),
+					new Rectangle[] {
+						new Rectangle(topLeftX - 29, topLeftY + 4, 3, 3),
+						new Rectangle(topLeftX - 24, topLeftY + 4, 3, 3),
+						new Rectangle(topLeftX - 19, topLeftY + 4, 3, 3)
+					}
+				);
+			} else if (directionPointingIn == 'E') {
+				//int topLeftX = x + 5;
+				//int topLeftY = y - 2;
+			}
+		}
+
+		private Tuple<Point, Point> Line(Point point1, Point point2) {
+			return new Tuple<Point, Point>(point1, point2);
+		}
+
+		public override void PaintSignal() {
+			base.PaintSignal();
+			SolidBrush headBrush = new SolidBrush(Color.DarkGray);
+			SolidBrush blackBrush = new SolidBrush(Color.Black);
+			Pen blackPen = new Pen(Color.Black);
+
+			foreach (Tuple<RectangleF, Rectangle[]> head in heads) {
+				Point targetsTopCorner = new Point((int) head.Item1.X, (int) head.Item1.Y);
+				g.FillRectangle(headBrush, head.Item1);
+				RectangleF[] corners = new RectangleF[] {
+					new RectangleF(targetsTopCorner.X     , targetsTopCorner.Y     , 2, 4),
+					new RectangleF(targetsTopCorner.X     , targetsTopCorner.Y     , 4, 2),
+					new RectangleF(targetsTopCorner.X     , targetsTopCorner.Y +  8, 2, 4),
+					new RectangleF(targetsTopCorner.X     , targetsTopCorner.Y + 10, 4, 2),
+					new RectangleF(targetsTopCorner.X + 18, targetsTopCorner.Y + 10, 4, 2),
+					new RectangleF(targetsTopCorner.X + 20, targetsTopCorner.Y +  8, 2, 4),
+					new RectangleF(targetsTopCorner.X + 20, targetsTopCorner.Y     , 2, 4),
+					new RectangleF(targetsTopCorner.X + 18, targetsTopCorner.Y     , 4, 2),
+					new RectangleF(targetsTopCorner.X + 3, targetsTopCorner.Y + 3, 1, 1),	// apparently this is how you draw a single pixel on the picture
+					new RectangleF(targetsTopCorner.X + 3, targetsTopCorner.Y + 8, 1, 1)	// both of these are needed for the hood
+				};
+				foreach (RectangleF rectangle in corners) {
+					g.FillRectangle(blackBrush, rectangle);
+				}
+				Tuple<Point, Point>[] hoodLines = new Tuple<Point, Point>[] {
+					Line(new Point(targetsTopCorner.X + 4, targetsTopCorner.Y + 2), new Point(targetsTopCorner.X + 16, targetsTopCorner.Y + 2)),
+					Line(new Point(targetsTopCorner.X + 2, targetsTopCorner.Y + 4), new Point(targetsTopCorner.X + 2, targetsTopCorner.Y + 7)),
+					Line(new Point(targetsTopCorner.X + 4, targetsTopCorner.Y + 9), new Point(targetsTopCorner.X + 16, targetsTopCorner.Y + 9))
+				};
+				foreach (Tuple<Point, Point> line in hoodLines) {
+					g.DrawLine(blackPen, line.Item1, line.Item2);
+				}
+				foreach (Rectangle light in head.Item2) {
+					g.DrawRectangle(blackPen, light);
+				}
+			}
+
+			headBrush.Dispose();
+			blackBrush.Dispose();
+			blackPen.Dispose();
+			// TODO: Paint signal heads and lights here
+			base.PaintSignal();
 		}
 	}
 }

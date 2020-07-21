@@ -301,6 +301,14 @@ namespace ATCSPorter_V2 {
 			signal = new DwarfSignal(board, 199, 167, 'E');
 			signal.PaintSignal();
 			signalDrawings.Add("482_5E", signal);
+
+			signal = new TwoHeadSignal(board, 134, 103, 'W');
+			signal.PaintSignal();
+			signalDrawings.Add("483_2W", signal);
+
+			//signal = new TwoHeadSignal(board, 759, 135, 'E');
+			//signal.PaintSignal();
+			//signalDrawings.Add("479_2E", signal);
 		}
 	}
 }
