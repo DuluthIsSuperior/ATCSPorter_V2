@@ -75,4 +75,10 @@ namespace ATCSPorter_V2 {
 			base.PaintSignal();
 		}
 	}
+
+	class TwoHeadSignal : Signal {
+		public TwoHeadSignal(PictureBox pb, int x, int y, char directionPointingIn):base(pb, x, y, directionPointingIn) {
+
+		}
+	}
 }
