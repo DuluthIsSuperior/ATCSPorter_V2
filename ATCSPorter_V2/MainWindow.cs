@@ -302,13 +302,33 @@ namespace ATCSPorter_V2 {
 			signal.PaintSignal();
 			signalDrawings.Add("482_5E", signal);
 
-			signal = new TwoHeadSignal(board, 134, 103, 'W');
+			signal = new TwoHeadSignal(board, 134, 103, 'W', "3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("483_2W", signal);
 
-			//signal = new TwoHeadSignal(board, 759, 135, 'E');
-			//signal.PaintSignal();
-			//signalDrawings.Add("479_2E", signal);
+			signal = new TwoHeadSignal(board, 138, 103, 'E', "3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("483_1EI", signal);
+
+			signal = new TwoHeadSignal(board, 759, 135, 'E', "3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("479_2E", signal);
+
+			signal = new TwoHeadSignal(board, 759, 73, 'E', "3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("479_1E", signal);
+
+			signal = new TwoHeadSignal(board, 134, 73, 'W', "3-2");
+			signal.PaintSignal();
+			signalDrawings.Add("483_1WI", signal);
+
+			signal = new TwoHeadSignal(board, 694, 135, 'W', "2-3");
+			signal.PaintSignal();
+			signalDrawings.Add("482_6W", signal);
+
+			signal = new TwoHeadSignal(board, 582, 39, 'W', "1-3");
+			signal.PaintSignal();
+			signalDrawings.Add("482_1WD", signal);
 		}
 	}
 }
