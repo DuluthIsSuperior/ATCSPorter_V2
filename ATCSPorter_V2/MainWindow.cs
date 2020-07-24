@@ -295,71 +295,71 @@ namespace ATCSPorter_V2 {
 			signal.PaintSignal();
 			signalDrawings.Add("482_10E", signal);
 
-			signal = new TwoHeadSignal(board, "2WG", 134, 103, 'W', "3-3");
+			signal = new MastSignal(board, "2WG", 134, 103, 'W', "3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("483_4WA", signal);
 
-			signal = new TwoHeadSignal(board, "1EI", 138, 103, 'E', "3-3");
+			signal = new MastSignal(board, "1EI", 138, 103, 'E', "3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("483_1EI", signal);
 
-			signal = new TwoHeadSignal(board, "2EG", 759, 135, 'E', "3-3");
+			signal = new MastSignal(board, "2EG", 759, 135, 'E', "3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("479_4E", signal);
 
-			signal = new TwoHeadSignal(board, "1EG", 759, 71, 'E', "3-3");
+			signal = new MastSignal(board, "1EG", 759, 71, 'E', "3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("479_2E", signal);
 
-			signal = new TwoHeadSignal(board, "1WI", 134, 73, 'W', "3-2");
+			signal = new MastSignal(board, "1WI", 134, 73, 'W', "3-2");
 			signal.PaintSignal();
 			signalDrawings.Add("483_1WI", signal);
 
-			signal = new TwoHeadSignal(board, "6WG", 694, 135, 'W', "2-3");
+			signal = new MastSignal(board, "6WG", 694, 135, 'W', "2-3");
 			signal.PaintSignal();
 			signalDrawings.Add("482_12W", signal);
 
-			signal = new TwoHeadSignal(board, "1WG", 582, 39, 'W', "1-3");
+			signal = new MastSignal(board, "1WG", 582, 39, 'W', "1-3");
 			signal.PaintSignal();
 			signalDrawings.Add("482_2WD", signal);
 
-			signal = new ThreeHeadSignal(board, "2WG", 694, 71, 'W', "3-3-3");	// 3-3-3
+			signal = new MastSignal(board, "2WG", 694, 71, 'W', "3-3-3");	// 3-3-3
 			signal.PaintSignal();
 			signalDrawings.Add("482_4W", signal);
 
-			signal = new ThreeHeadSignal(board, "4WG", 694, 103, 'W', "3-3-3");
+			signal = new MastSignal(board, "4WG", 694, 103, 'W', "3-3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("482_8W", signal);
 
-			signal = new ThreeHeadSignal(board, "1EG", 199, 103, 'E', "3-3-3");	// 3-3-3
+			signal = new MastSignal(board, "1EG", 199, 103, 'E', "3-3-3");	// 3-3-3
 			signal.PaintSignal();
 			signalDrawings.Add("482_2E", signal);
 
-			signal = new ThreeHeadSignal(board, "3EG", 199, 135, 'E', "3-3-3");
+			signal = new MastSignal(board, "3EG", 199, 135, 'E', "3-3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("482_6E", signal);
 
-			signal = new ThreeHeadSignal(board, "1WG", 886, 71, 'W', "3-3-3");
+			signal = new MastSignal(board, "1WG", 886, 71, 'W', "3-3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("479_2W", signal);
 
-			signal = new ThreeHeadSignal(board, "2WG", 886, 135, 'W', "3-3-3"); // 3-3-3
+			signal = new MastSignal(board, "2WG", 886, 135, 'W', "3-3-3"); // 3-3-3
 			signal.PaintSignal();
 			signalDrawings.Add("479_4W", signal);
 
-			signal = new ThreeHeadSignal(board, "2EG", 55, 167, 'E', "3-3-2");
+			signal = new MastSignal(board, "2EG", 55, 167, 'E', "3-3-2");
 			signal.PaintSignal();
 			signalDrawings.Add("483_4E", signal);
 
-			signal = new ThreeHeadSignal(board, "6EG", 199, 199, 'E', "1-3-3");
+			signal = new MastSignal(board, "6EG", 199, 199, 'E', "1-3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("482_12EA", signal);
 
-			signal = new ThreeHeadSignal(board, "6EG", 199, 231, 'E', "1-3-3");
+			signal = new MastSignal(board, "6EG", 199, 231, 'E', "1-3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("482_12ED", signal);
 
-			signal = new ThreeHeadSignal(board, "1WG", 582, 7, 'W', "1-1-3");
+			signal = new MastSignal(board, "1WG", 582, 7, 'W', "1-1-3");
 			signal.PaintSignal();
 			signalDrawings.Add("482_2WA", signal);
 		}
