@@ -14,6 +14,7 @@ namespace ATCSPorter_V2 {
 	public partial class MainWindow : Form {
 		PictureBox boardBox;
 		Dictionary<string, Block> blockDrawings = new Dictionary<string, Block>();
+		Dictionary<string, Signal> signalDrawings = new Dictionary<string, Signal>();	// key is the NS signal number
 
 		public MainWindow() {
 			InitializeComponent();
@@ -69,20 +70,16 @@ namespace ATCSPorter_V2 {
 			block.PaintBlock(boardBox, Color.Red);
 			blockDrawings.Add("482_CT", block);
 
-			block = new LinearBlock(584, 18, 46);
-			block.PaintBlock(boardBox, Color.Red);
-			blockDrawings.Add("482_6WA", block);
-
 			blocks = new Dictionary<string, List<object>>();
 			blocks.Add("N", new List<object> {
-				new Line(632, 18, 632, 29),
-				new RectangleF(633, 22, 36, 4),
-				new Turnout(669, 22, "-/"),
-				new ArrowHead(675, 13, "NE")
+				new Line(584, 18, 584, 29),
+				new RectangleF(585, 22, 26, 4),
+				new Turnout(607, 22, "-/"),
+				new ArrowHead(613, 13, "NE")
 			});
 			block = new BlockConfiguration(boardBox, blocks, blocks["N"]);
 			//block.PaintBlock(boardBox, Color.White);
-			blockDrawings.Add("482_8WA", block);
+			blockDrawings.Add("482_6WA", block);
 
 			backdrop = new List<object> {
 				new LinearBlock(456, 82, 62),
@@ -110,20 +107,17 @@ namespace ATCSPorter_V2 {
 			block.PaintBlock(boardBox, Color.Red);
 			blockDrawings.Add("482_DT", block);
 
-			block = new LinearBlock(584, 50, 46);
-			block.PaintBlock(boardBox, Color.Red);
-			blockDrawings.Add("482_7WA", block);
-
 			blocks = new Dictionary<string, List<object>>();
 			blocks.Add("N", new List<object> {
-				new Line(632, 50, 632, 61),
-				new RectangleF(633, 54, 36, 4),
-				new Turnout(669, 54, "-/"),
-				new ArrowHead(675, 45, "NE")
+				new Line(584, 50, 584, 61),
+				new RectangleF(585, 54, 26, 4),
+				new Turnout(607, 54, "-/"),
+				new ArrowHead(613, 45, "NE")
+
 			});
 			block = new BlockConfiguration(boardBox, blocks, blocks["N"]);
 			//block.PaintBlock(boardBox, Color.White);
-			blockDrawings.Add("482_9WA", block);
+			blockDrawings.Add("482_7WA", block);
 
 			backdrop = new List<object> { 
 				new LinearBlock(520, 82, 174),
@@ -293,42 +287,81 @@ namespace ATCSPorter_V2 {
 			block.PaintBlock(board, Color.Red);
 			blockDrawings.Add("479_6EA", block);
 
-			Signal signal = new DwarfSignal(board, 134, 135, 'W');
+			Signal signal = new DwarfSignal(board, "2WG", 134, 135, 'W');
 			signal.PaintSignal();
-			Dictionary<string, Signal> signalDrawings = new Dictionary<string, Signal>();
-			signalDrawings.Add("482_2WD", signal);
+			signalDrawings.Add("483_4WD", signal);
 
-			signal = new DwarfSignal(board, 199, 167, 'E');
+			signal = new DwarfSignal(board, "5EG", 199, 167, 'E');
 			signal.PaintSignal();
-			signalDrawings.Add("482_5E", signal);
+			signalDrawings.Add("482_10E", signal);
 
-			signal = new TwoHeadSignal(board, 134, 103, 'W', "3-3");
+			signal = new TwoHeadSignal(board, "2WG", 134, 103, 'W', "3-3");
 			signal.PaintSignal();
-			signalDrawings.Add("483_2W", signal);
+			signalDrawings.Add("483_4WA", signal);
 
-			signal = new TwoHeadSignal(board, 138, 103, 'E', "3-3");
+			signal = new TwoHeadSignal(board, "1EI", 138, 103, 'E', "3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("483_1EI", signal);
 
-			signal = new TwoHeadSignal(board, 759, 135, 'E', "3-3");
+			signal = new TwoHeadSignal(board, "2EG", 759, 135, 'E', "3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("479_4E", signal);
+
+			signal = new TwoHeadSignal(board, "1EG", 759, 71, 'E', "3-3");
 			signal.PaintSignal();
 			signalDrawings.Add("479_2E", signal);
 
-			signal = new TwoHeadSignal(board, 759, 73, 'E', "3-3");
-			signal.PaintSignal();
-			signalDrawings.Add("479_1E", signal);
-
-			signal = new TwoHeadSignal(board, 134, 73, 'W', "3-2");
+			signal = new TwoHeadSignal(board, "1WI", 134, 73, 'W', "3-2");
 			signal.PaintSignal();
 			signalDrawings.Add("483_1WI", signal);
 
-			signal = new TwoHeadSignal(board, 694, 135, 'W', "2-3");
+			signal = new TwoHeadSignal(board, "6WG", 694, 135, 'W', "2-3");
 			signal.PaintSignal();
-			signalDrawings.Add("482_6W", signal);
+			signalDrawings.Add("482_12W", signal);
 
-			signal = new TwoHeadSignal(board, 582, 39, 'W', "1-3");
+			signal = new TwoHeadSignal(board, "1WG", 582, 39, 'W', "1-3");
 			signal.PaintSignal();
-			signalDrawings.Add("482_1WD", signal);
+			signalDrawings.Add("482_2WD", signal);
+
+			signal = new ThreeHeadSignal(board, "2WG", 694, 71, 'W', "3-3-3");	// 3-3-3
+			signal.PaintSignal();
+			signalDrawings.Add("482_4W", signal);
+
+			signal = new ThreeHeadSignal(board, "4WG", 694, 103, 'W', "3-3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("482_8W", signal);
+
+			signal = new ThreeHeadSignal(board, "1EG", 199, 103, 'E', "3-3-3");	// 3-3-3
+			signal.PaintSignal();
+			signalDrawings.Add("482_2E", signal);
+
+			signal = new ThreeHeadSignal(board, "3EG", 199, 135, 'E', "3-3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("482_6E", signal);
+
+			signal = new ThreeHeadSignal(board, "1WG", 886, 71, 'W', "3-3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("479_2W", signal);
+
+			signal = new ThreeHeadSignal(board, "2WG", 886, 135, 'W', "3-3-3"); // 3-3-3
+			signal.PaintSignal();
+			signalDrawings.Add("479_4W", signal);
+
+			signal = new ThreeHeadSignal(board, "2EG", 55, 167, 'E', "3-3-2");
+			signal.PaintSignal();
+			signalDrawings.Add("483_4E", signal);
+
+			signal = new ThreeHeadSignal(board, "6EG", 199, 199, 'E', "1-3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("482_12EA", signal);
+
+			signal = new ThreeHeadSignal(board, "6EG", 199, 231, 'E', "1-3-3");
+			signal.PaintSignal();
+			signalDrawings.Add("482_12ED", signal);
+
+			signal = new ThreeHeadSignal(board, "1WG", 582, 7, 'W', "1-1-3");
+			signal.PaintSignal();
+			signalDrawings.Add("482_2WA", signal);
 		}
 	}
 }
