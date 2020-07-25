@@ -18,7 +18,10 @@ namespace ATCSPorter_V2 {
 
 		public MainWindow() {
 			InitializeComponent();
-			boardBox = (PictureBox) Controls.Find("board", true)[0];
+			boardBox = board;
+			Bitmap newBmp = new Bitmap(board.Width, board.Height);
+			Graphics newG = Graphics.FromImage(newBmp);
+			SolidBrush newBrush = new SolidBrush(Color.Black);
 
 			Block block = new ArrowHead(6, 82, "W");
 			block.PaintBlock(boardBox, Color.Red);
@@ -221,10 +224,6 @@ namespace ATCSPorter_V2 {
 			block.PaintBlock(boardBox, Color.Red);
 			blockDrawings.Add("483_3O", block);
 
-			// TODO: Modify with turnouts
-			//block = new LinearBlock(198, 114, 286);
-			//block.PaintBlock(boardBox, Color.Red);
-			//blockDrawings.Add("482_3T", block);
 			backdrop = new List<object> {
 				new LinearBlock(198, 114, 286),
 				new DiagonalBlock(259, 128, '/')
@@ -235,13 +234,15 @@ namespace ATCSPorter_V2 {
 			});
 			blocks.Add("1R 2N", new List<object> {
 				new PartialLinearBlock(269, 118, 216, 'E'),
-				new Turnout(269, 118, "/-")
+				new Turnout(269, 118, "/-"),
+				new DiagonalBlock(259, 128, '/')
 			});
 			blocks.Add("1N 2R", new List<object> {
 				new PartialLinearBlock(199, 118, 102, 'W'),
 				new Turnout(301, 118, "-/")
 			});
 			blocks.Add("1R 2R", new List<object> {
+				new DiagonalBlock(259, 128, '/'),
 				new Turnout(269, 118, "/-"),
 				new RectangleF(270, 118, 32, 4),
 				new Turnout(301, 118, "-/")
@@ -250,18 +251,58 @@ namespace ATCSPorter_V2 {
 			//block.PaintBlock(boardBox, Color.White);
 			blockDrawings.Add("482_3T", block);
 
-			// TODO: Modify with turnouts
-			block = new LinearBlock(486, 114, 208);
-			block.PaintBlock(boardBox, Color.Red);
+			backdrop = new List<object> {
+				new LinearBlock(486, 114, 208),
+				new DiagonalBlock(595, 128, '/')
+			};
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("7N 8N 9N", new List<object> {
+				new LinearBlock(486, 114, 208)
+			});
+			blocks.Add("7R 8N 9N", new List<object> {
+				new Turnout(573, 118, "\\-"),
+				new PartialLinearBlock(577, 118, 118, 'E')
+			});
+			blocks.Add("7N 8R 9N", new List<object> {
+				new Turnout(605, 118, "/-"),
+				new PartialLinearBlock(605, 118, 90, 'E'),
+				new DiagonalBlock(595, 128, '/')
+			});
+			blocks.Add("7N 8N 9R", new List<object> {
+				new PartialLinearBlock(487, 118, 150, 'W'),
+				new Turnout(637, 118, "-/")
+			});
+			blocks.Add("7N 8R 9R", new List<object> {
+				new Turnout(605, 118, "/-"),
+				new RectangleF(606, 118, 32, 4),
+				new Turnout(637, 118, "-/"),
+				new DiagonalBlock(595, 128, '/')
+			});
+			block = new BlockConfiguration(boardBox, blocks, backdrop);
+			//block.PaintBlock(boardBox, Color.White);
 			blockDrawings.Add("482_4T", block);
 
 			block = new LinearBlock(696, 114, 62);
 			block.PaintBlock(board, Color.Red);
 			blockDrawings.Add("482_BO", block);
 
-			// TODO: Modify with turnouts
-			block = new LinearBlock(760, 114, 126);
-			block.PaintBlock(board, Color.Red);
+			backdrop = new List<object> {
+				new LinearBlock(760, 114, 126)
+			};
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("1N 2N", new List<object> {
+				new LinearBlock(760, 114, 126)
+			});
+			blocks.Add("1R 2N", new List<object> {
+				new PartialLinearBlock(761, 118, 20, 'W'),
+				new Turnout(781, 118, "-/")
+			});
+			blocks.Add("1N 2R", new List<object> {
+				new PartialLinearBlock(864, 118, 23, 'E'),
+				new Turnout(861, 118, "\\-")
+			});
+			block = new BlockConfiguration(boardBox, blocks, backdrop);
+			//block.PaintBlock(boardBox, Color.White);
 			blockDrawings.Add("479_2T", block);
 
 			block = new LinearBlock(888, 114, 46);
@@ -272,43 +313,105 @@ namespace ATCSPorter_V2 {
 			block.PaintBlock(board, Color.Red);
 			blockDrawings.Add("479_BWA", block);
 
-			// TODO: Modify with turnouts
-			block = new LinearBlock(198, 146, 142);
-			block.PaintBlock(board, Color.Red);
-			blockDrawings.Add("479_5T", block);
+			backdrop = new List<object> {
+				new LinearBlock(198, 146, 142)
+			};
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("1N", new List<object> {
+				new LinearBlock(198, 146, 142)
+			});
+			blocks.Add("1R", new List<object> {
+				new PartialLinearBlock(199, 150, 38, 'W'),
+				new Turnout(237, 150, "-/")
+			});
+			block = new BlockConfiguration(boardBox, blocks, backdrop);
+			//block.PaintBlock(boardBox, Color.White);
+			blockDrawings.Add("482_5T", block);
 
-			// TODO: Modify with turnouts
-			block = new LinearBlock(342, 146, 144);
-			block.PaintBlock(board, Color.Red);
-			blockDrawings.Add("479_FT", block);
+			backdrop = new List<object> {
+				new LinearBlock(342, 146, 144),
+				new PartialLinearBlock(343, 182, 70, 'W'),
+				new Turnout(413, 182, "-/"),
+				new DiagonalBlock(435, 160, '/')
+			};
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("6N", new List<object> {
+				new LinearBlock(342, 146, 144)
+			});
+			blocks.Add("6R", new List<object> {
+				new PartialLinearBlock(343, 182, 70, 'W'),
+				new Turnout(413, 182, "-/"),
+				new DiagonalBlock(435, 160, '/'),
+				new Turnout(445, 150, "/-"),
+				new PartialLinearBlock(446, 150, 41, 'E')
+			});
+			block = new BlockConfiguration(boardBox, blocks, backdrop);
+			//block.PaintBlock(boardBox, Color.White);
+			blockDrawings.Add("482_FT", block);
 
-			// TODO: Modify with turnouts
-			block = new LinearBlock(488, 146, 206);
-			block.PaintBlock(board, Color.Red);
-			blockDrawings.Add("479_GT", block);
+			backdrop = new List<object> {
+				new LinearBlock(488, 146, 206)
+			};
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("8N", new List<object> {
+				new LinearBlock(488, 146, 206)
+			});
+			blocks.Add("8R", new List<object> {
+				new PartialLinearBlock(489, 150, 86, 'W'),
+				new Turnout(573, 150, "-/")
+			});
+			block = new BlockConfiguration(boardBox, blocks, backdrop);
+			//block.PaintBlock(boardBox, Color.White);
+			blockDrawings.Add("482_GT", block);
 
 			block = new PartialLinearBlock(697, 150, 32, 'W');
 			block.PaintBlock(board, Color.Red);
 			blockDrawings.Add("479_5WA", block);
 
-			// TODO: Modify to include arrow and diagonal line
-			block = new PartialLinearBlock(177, 182, 20, 'E');
-			block.PaintBlock(board, Color.Red);
-			blockDrawings.Add("479_5EA", block);
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("N", new List<object> {
+				new PartialLinearBlock(177, 182, 20, 'E'),
+				new Turnout(173, 182, "/-"),
+				new ArrowHead(164, 188, "SW")
+			});
+			block = new BlockConfiguration(boardBox, blocks, blocks["N"]);
+			//block.PaintBlock(boardBox, Color.White);
+			blockDrawings.Add("482_5EA", block);
 
-			// TODO: Modify with turnouts
-			block = new LinearBlock(198, 178, 80);
-			block.PaintBlock(board, Color.Red);
-			blockDrawings.Add("479_6T", block);
+			backdrop = new List<object> {
+				new LinearBlock(198, 178, 80),
+				new PartialLinearBlock(199, 214, 22, 'W'),
+				new Turnout(221, 214, "-/"),
+				new DiagonalBlock(243, 192, '/')
+			};
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("4N", new List<object> {
+				new LinearBlock(198, 178, 80)
+			});
+			blocks.Add("4R", new List<object> {
+				new PartialLinearBlock(199, 214, 22, 'W'),
+				new Turnout(221, 214, "-/"),
+				new DiagonalBlock(243, 192, '/'),
+				new Turnout(253, 182, "/-"),
+				new PartialLinearBlock(255, 182, 24, 'E')
+			});
+			block = new BlockConfiguration(boardBox, blocks, backdrop);
+			//block.PaintBlock(boardBox, Color.White);
+			blockDrawings.Add("482_6T", block);
 
 			block = new LinearBlock(280, 178, 60);
 			block.PaintBlock(board, Color.Red);
 			blockDrawings.Add("479_ET", block);
 
-			// TODO: Modify to include arrow and diagonal line
-			block = new PartialLinearBlock(177, 214, 20, 'E');
-			block.PaintBlock(board, Color.Red);
-			blockDrawings.Add("479_6EA", block);
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("N", new List<object> {
+				new PartialLinearBlock(177, 214, 20, 'E'),
+				new Turnout(173, 214, "/-"),
+				new ArrowHead(164, 220, "SW")
+			});
+			block = new BlockConfiguration(boardBox, blocks, blocks["N"]);
+			//block.PaintBlock(boardBox, Color.White);
+			blockDrawings.Add("482_6EA", block);
 
 			Signal signal = new DwarfSignal(board, "2WG", 134, 135, 'W');
 			signal.PaintSignal();

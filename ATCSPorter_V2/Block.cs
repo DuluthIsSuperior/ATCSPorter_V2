@@ -73,6 +73,8 @@ namespace ATCSPorter_V2 {
 				points = new Point[] { new Point(x, y), new Point(x + 7, y + 7), new Point(x + 7, y) };
 			} else if (direction == "E") {
 				points = new Point[] { new Point(x, y), new Point(x, y + 13), new Point(x + 6, y + 6) };
+			} else if (direction == "SW") {
+				points = new Point[] { new Point(x, y), new Point(x, y + 7), new Point(x + 7, y + 7) };
 			}
 		}
 
@@ -118,6 +120,9 @@ namespace ATCSPorter_V2 {
 				string message = "Invalid turnout specification";
 				if (dir.Contains("--")) {
 					message += "; Use one dash instead of two";
+				}
+				if (dir.Contains("//")) {
+					message += "; Use one forward slash, not two";
 				}
 				throw new ArgumentException(message);
 			}
@@ -183,28 +188,28 @@ namespace ATCSPorter_V2 {
 		List<object> Backdrop;
 		Dictionary<string, List<object>> routes;
 
-		private void TestPaint(PictureBox pb, object shape, Color color) {
-			if (shape.GetType().BaseType == typeof(Block)) {
-				((Block) shape).PaintBlock(pb, color);
-			} else {
-				Bitmap bmp = new Bitmap(pb.Image);
-				Graphics g = Graphics.FromImage(bmp);
-				if (shape.GetType() == typeof(RectangleF)) {
-					SolidBrush brush = new SolidBrush(color);   // Color.Lime
-					g.FillRectangle(brush, (RectangleF) shape);
-					brush.Dispose();
-				} else if (shape.GetType() == typeof(Line)) {
-					Line line = (Line) shape;
-					Pen pen = new Pen(color);
-					g.DrawLine(pen, line.GetPoint1(), line.GetPoint2());
-					pen.Dispose();
-				} else {
-					throw new ArgumentException("Invalid shape type");
-				}
-				pb.Image = bmp;
-				pb.Invalidate();
-			}
-		}
+		//private void TestPaint(PictureBox pb, object shape, Color color) {
+		//	if (shape.GetType().BaseType == typeof(Block)) {
+		//		((Block) shape).PaintBlock(pb, color);
+		//	} else {
+		//		Bitmap bmp = new Bitmap(pb.Image);
+		//		Graphics g = Graphics.FromImage(bmp);
+		//		if (shape.GetType() == typeof(RectangleF)) {
+		//			SolidBrush brush = new SolidBrush(color);   // Color.Lime
+		//			g.FillRectangle(brush, (RectangleF) shape);
+		//			brush.Dispose();
+		//		} else if (shape.GetType() == typeof(Line)) {
+		//			Line line = (Line) shape;
+		//			Pen pen = new Pen(color);
+		//			g.DrawLine(pen, line.GetPoint1(), line.GetPoint2());
+		//			pen.Dispose();
+		//		} else {
+		//			throw new ArgumentException("Invalid shape type");
+		//		}
+		//		pb.Image = bmp;
+		//		pb.Invalidate();
+		//	}
+		//}
 
 		public BlockConfiguration(PictureBox pb, Dictionary<string, List<object>> blocks, List<object> backdrop) {
 			Backdrop = new List<object>();
@@ -218,15 +223,15 @@ namespace ATCSPorter_V2 {
 					Backdrop.Add(shape);
 				}
 			}
-			foreach (object shape in backdrop) {
-				TestPaint(pb, shape, Color.Lime);
-			}
+			//foreach (object shape in backdrop) {
+			//	TestPaint(pb, shape, Color.Lime);
+			//}
 
-			foreach (string config in blocks.Keys) {
-				foreach (object shape in blocks[config]) {
-					TestPaint(pb, shape, Color.Red);
-				}
-			}
+			//foreach (string config in blocks.Keys) {
+			//	foreach (object shape in blocks[config]) {
+			//		TestPaint(pb, shape, Color.Red);
+			//	}
+			//}
 
 			routes = blocks;
 		}
@@ -265,6 +270,10 @@ namespace ATCSPorter_V2 {
 			g.FillRectangle(brush, border);
 			g.FillRectangle(brush, block);
 			base.PaintBlock(pb, color);
+		}
+
+		public override List<object> GetPolygons() {
+			return new List<object> { border, block };
 		}
 	}
 

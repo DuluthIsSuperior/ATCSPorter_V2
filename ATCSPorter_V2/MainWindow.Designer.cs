@@ -30,7 +30,6 @@
 			// board
 			// 
 			this.board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-			this.board.Image = global::ATCSPorter_V2.Properties.Resources.Porter_482;
 			this.board.Location = new System.Drawing.Point(171, 54);
 			this.board.Name = "board";
 			this.board.Size = new System.Drawing.Size(943, 242);
