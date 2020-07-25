@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Configuration;
+using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -113,6 +114,12 @@ namespace ATCSPorter_V2 {
 				rectangles.Add(new RectangleF(x - 2, y - 2, 4, 4));
 				rectangles.Add(new RectangleF(x - 4, y - 4, 4, 4));
 				rectangles.Add(new RectangleF(x - 6, y - 6, 4, 4));
+			} else {
+				string message = "Invalid turnout specification";
+				if (dir.Contains("--")) {
+					message += "; Use one dash instead of two";
+				}
+				throw new ArgumentException(message);
 			}
 		}
 

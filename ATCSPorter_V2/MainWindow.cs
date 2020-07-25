@@ -140,7 +140,6 @@ namespace ATCSPorter_V2 {
 				new Turnout(541, 86, "-\\"),
 				new DiagonalBlock(551, 96, '\\')
 			});
-
 			block = new BlockConfiguration(boardBox, blocks, backdrop);
 			//block.PaintBlock(boardBox, Color.White);
 			blockDrawings.Add("482_2T", block);
@@ -223,8 +222,32 @@ namespace ATCSPorter_V2 {
 			blockDrawings.Add("483_3O", block);
 
 			// TODO: Modify with turnouts
-			block = new LinearBlock(198, 114, 286);
-			block.PaintBlock(boardBox, Color.Red);
+			//block = new LinearBlock(198, 114, 286);
+			//block.PaintBlock(boardBox, Color.Red);
+			//blockDrawings.Add("482_3T", block);
+			backdrop = new List<object> {
+				new LinearBlock(198, 114, 286),
+				new DiagonalBlock(259, 128, '/')
+			};
+			blocks = new Dictionary<string, List<object>>();
+			blocks.Add("1N 2N", new List<object> {
+				new LinearBlock(198, 114, 286)
+			});
+			blocks.Add("1R 2N", new List<object> {
+				new PartialLinearBlock(269, 118, 216, 'E'),
+				new Turnout(269, 118, "/-")
+			});
+			blocks.Add("1N 2R", new List<object> {
+				new PartialLinearBlock(199, 118, 102, 'W'),
+				new Turnout(301, 118, "-/")
+			});
+			blocks.Add("1R 2R", new List<object> {
+				new Turnout(269, 118, "/-"),
+				new RectangleF(270, 118, 32, 4),
+				new Turnout(301, 118, "-/")
+			});
+			block = new BlockConfiguration(boardBox, blocks, backdrop);
+			//block.PaintBlock(boardBox, Color.White);
 			blockDrawings.Add("482_3T", block);
 
 			// TODO: Modify with turnouts
