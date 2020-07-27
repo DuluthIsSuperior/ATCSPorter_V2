@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ATCSPorter_V2 {
-	class Signal {
+	public class Signal {
 		internal RectangleF[] foundation;
 		internal char direction;
 		internal string mnemonic;
@@ -12,6 +13,7 @@ namespace ATCSPorter_V2 {
 		internal PictureBox board;
 		internal Bitmap bmp = null;
 		internal Graphics g = null;
+		readonly Mutex paintMutex = new Mutex();
 
 		public Signal(PictureBox pb, string id, int x, int y, char directionPointingIn) {
 			board = pb;
@@ -35,6 +37,7 @@ namespace ATCSPorter_V2 {
 
 		// TODO: Modify to accept signal indication
 		public virtual void PaintSignal() {
+			paintMutex.WaitOne();
 			if (g == null) {
 				bmp = new Bitmap(board.Image);
 				g = Graphics.FromImage(bmp);
@@ -48,6 +51,7 @@ namespace ATCSPorter_V2 {
 				g.Dispose();
 				g = null;
 			}
+			paintMutex.ReleaseMutex();
 		}
 
 		internal Tuple<Point, Point> Line(Point point1, Point point2) {
@@ -73,6 +77,7 @@ namespace ATCSPorter_V2 {
 				lights[1] = new Rectangle(topLeftX + 6, topLeftY + 1, 3, 3);
 				lights[2] = new Rectangle(topLeftX + 1, topLeftY + 1, 3, 3);
 			}
+			PaintSignal();
 		}
 
 		public override void PaintSignal() {
@@ -174,6 +179,7 @@ namespace ATCSPorter_V2 {
 						 new Point(targetsTopCorner.X + cornerPosition, targetsTopCorner.Y + 9))
 				};
 			}
+			PaintSignal();
 		}
 
 		public override void PaintSignal() {

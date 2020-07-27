@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Configuration;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Cryptography;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ATCSPorter_V2 {
-	class Block {
+	public class Block {
 		internal Bitmap bmp = null;
 		internal Graphics g = null;
 		internal SolidBrush brush = null;
 		readonly PictureBox board;
+		readonly Mutex paintMutex = new Mutex();
 
 		public Block(PictureBox pb) {
 			board = pb;
 		}
 
 		public virtual void PaintBlock(Color color, params string[] routeToPaint) {
+			paintMutex.WaitOne();
 			if (g == null) {
 				bmp = new Bitmap(board.Image);
 				g = Graphics.FromImage(bmp);
@@ -31,10 +30,15 @@ namespace ATCSPorter_V2 {
 				g.Dispose();
 				g = null;
 			}
+			paintMutex.ReleaseMutex();
 		}
 
 		public virtual List<object> GetPolygons() {
 			return null;
+		}
+
+		public bool PaintOnInitValid(bool[] paintOnInit) {
+			return paintOnInit.Length > 0 && paintOnInit[0];
 		}
 	}
 
@@ -43,10 +47,13 @@ namespace ATCSPorter_V2 {
 		RectangleF block;
 		RectangleF eastBorder;
 
-		public LinearBlock(PictureBox pb, int westX, int westY, int blockLength):base(pb) {
+		public LinearBlock(PictureBox pb, int westX, int westY, int blockLength, params bool[] paintInit):base(pb) {
 			westBorder = new RectangleF(westX, westY, 1, 12);
 			block = new RectangleF(westX + 1, westY + 4, blockLength, 4);
 			eastBorder = new RectangleF(westX + blockLength + 1, westY, 1, 12);
+			if (PaintOnInitValid(paintInit)) {
+				PaintBlock(Color.White);
+			}
 		}
 
 		public override void PaintBlock(Color color, params string[] routeToPaint) {
@@ -70,7 +77,7 @@ namespace ATCSPorter_V2 {
 		readonly string direction;
 		readonly Point[] points;
 
-		public ArrowHead(PictureBox pb, int x, int y, string pointingDirection):base(pb) {
+		public ArrowHead(PictureBox pb, int x, int y, string pointingDirection, params bool[] paintInit):base(pb) {
 			direction = pointingDirection;
 			if (direction == "W") {
 				points = new Point[] { new Point(x, y), new Point(x, y + 13), new Point(x - 6, y + 6) };
@@ -80,6 +87,9 @@ namespace ATCSPorter_V2 {
 				points = new Point[] { new Point(x, y), new Point(x, y + 13), new Point(x + 6, y + 6) };
 			} else if (direction == "SW") {
 				points = new Point[] { new Point(x, y), new Point(x, y + 7), new Point(x + 7, y + 7) };
+			}
+			if (PaintOnInitValid(paintInit)) {
+				PaintBlock(Color.White);
 			}
 		}
 
@@ -192,9 +202,8 @@ namespace ATCSPorter_V2 {
 	class BlockConfiguration : Block {
 		readonly List<Block> Backdrop;
 		readonly Dictionary<string, List<Block>> routes;
-		readonly string mnemonic;
 
-		public BlockConfiguration(PictureBox pb, Dictionary<string, List<Block>> blocks, List<Block> backdrop, string name):base(pb) {
+		public BlockConfiguration(PictureBox pb, Dictionary<string, List<Block>> blocks, List<Block> backdrop):base(pb) {
 			Backdrop = new List<Block>();
 			Backdrop.AddRange(backdrop);
 			foreach (Block block in Backdrop) {
@@ -202,7 +211,6 @@ namespace ATCSPorter_V2 {
 			}
 
 			routes = blocks;
-			mnemonic = name;
 		}
 
 		public override void PaintBlock(Color color, params string[] routeToPaint) {
@@ -210,7 +218,7 @@ namespace ATCSPorter_V2 {
 			try {
 				blocks = routes[routeToPaint[0]];
 			} catch (KeyNotFoundException) {
-				throw new ArgumentException($"Route {routeToPaint[0]} does not exist for block {mnemonic}");
+				throw new ArgumentException($"Route {routeToPaint[0]} does not exist for this block");
 			}
 			foreach (Block block in blocks) {
 				block.PaintBlock(color);
@@ -229,7 +237,7 @@ namespace ATCSPorter_V2 {
 		/// <param name="y">Y-coordinate refers to the top-left corner of the block not including the border</param>
 		/// <param name="width"></param>
 		/// <param name="borderSide"></param>
-		public PartialLinearBlock(PictureBox pb, int x, int y, int width, char borderSide):base(pb) {
+		public PartialLinearBlock(PictureBox pb, int x, int y, int width, char borderSide, params bool[] paintInit):base(pb) {
 			block = new RectangleF(x, y, width, 4);
 			if (borderSide == 'W') {
 				border = new RectangleF(x - 1, y - 4, 1, 12);
@@ -237,6 +245,9 @@ namespace ATCSPorter_V2 {
 				border = new RectangleF(x + width, y - 4, 1, 12);
 			} else if (borderSide == '0') { } else {
 				throw new ArgumentException("Invalid border side declaration");
+			}
+			if (PaintOnInitValid(paintInit)) {
+				PaintBlock(Color.White);
 			}
 		}
 

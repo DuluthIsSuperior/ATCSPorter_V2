@@ -32,7 +32,7 @@
 			this.board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.board.Location = new System.Drawing.Point(171, 54);
 			this.board.Name = "board";
-			this.board.Size = new System.Drawing.Size(943, 242);
+			this.board.Size = new System.Drawing.Size(983, 242);
 			this.board.TabIndex = 0;
 			this.board.TabStop = false;
 			// 
@@ -46,6 +46,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "MainWindow";
 			this.Text = "Form1";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
 			((System.ComponentModel.ISupportInitialize)(this.board)).EndInit();
 			this.ResumeLayout(false);
 
